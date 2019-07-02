@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field>u_requested_for</field>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>Populate Email address</name>
+        <order/>
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+	if (isLoading && !g_form.isNewRecord() || newValue === '' || newValue == oldValue ) {
+		return;
+	}
+	//Type appropriate comment here, and begin script below
+	var user = g_form.getValue('u_requested_for');
+	//Make Asynchronous call to Server
+	var ga = new GlideAjax('getEmailAddress'); //Create an instance of your class
+	ga.addParam('sysparm_name', 'getUserEmail');//Call appropriate method from your class
+	ga.addParam('sysparm_user', user);//Send input parameter of your method
+	ga.getXML(retrieveEmail);//Make an asynchronous call to your class
+	
+	
+	function retrieveEmail(response){//Get XML will return a response
+		var answer = response.responseXML.documentElement.getAttribute("answer");//Get the "answer" attribute from your XML response
+		g_form.setValue('u_requested_for_email', answer);
+	}
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>ub75</sys_created_by>
+        <sys_created_on>2019-07-02 07:31:39</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>76dba247db12330018701780399619f2</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>Populate Email address</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
+        <sys_update_name>sys_script_client_76dba247db12330018701780399619f2</sys_update_name>
+        <sys_updated_by>ub75</sys_updated_by>
+        <sys_updated_on>2019-07-02 08:07:49</sys_updated_on>
+        <table>x_58872_needit_needit</table>
+        <type>onChange</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>
